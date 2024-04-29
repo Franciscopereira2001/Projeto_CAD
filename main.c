@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <math.h>
 #include <time.h>
 #include <omp.h>
@@ -45,29 +46,104 @@ Job jobs[MAX_NUM];
 Machine machines[MAX_NUM];
 int maxEndTime = 0;
 
-int main(int argc, char **argv) {
-    int nrJobs;
-    int nrMachines;
-    int nrOperations;
-    int cost = 0;
+int nrJobs;
+int nrMachines;
+int nrOperations;
+
+void execute(int row, Solution (*solution)[nrMachines]) {
+    for (int col = 0; col < nrOperations; col++) {
+        #pragma omp critical
+
+        if (machines[jobs[row].operations[col].machine].isFree) {
+            printf("\nFree, row: %d", row);
+
+            solution[row][col].initialTime = maxEndTime;
+            solution[row][col].machine = jobs[row].operations[col].machine;
+            solution[row][col].endTime = solution[row][col].initialTime + jobs[row].operations[col].time;
+
+            machines[jobs[row].operations[col].machine].isFree = false;
+            machines[jobs[row].operations[col].machine].endTime = solution[row][col].endTime;
+        } else {
+            printf("\nNot Free, row: %d", row);
+
+            solution[row][col].initialTime = machines[jobs[row].operations[col].machine].endTime;
+            solution[row][col].machine = jobs[row].operations[col].machine;
+            solution[row][col].endTime = solution[row][col].initialTime + jobs[row].operations[col].time;
+
+            machines[jobs[row].operations[col].machine].isFree = false;
+            machines[jobs[row].operations[col].machine].endTime = solution[row][col].endTime;
+        };
+
+        #pragma omp barrier
+
+        for (int mAux = 0; mAux < nrJobs; mAux ++) {
+            if (maxEndTime < solution[mAux][col].endTime) {
+                maxEndTime = solution[mAux][col].endTime;
+            };
+        };
+
+        // Reset machines
+        for (int m = 0; m < nrMachines; m++) {
+            machines[m].isFree = true;
+            machines[m].endTime = 0;
+        }
+    };
+}
+
+void execute_parallel(Solution (*solution)[nrMachines]) {
+    #pragma omp parallel num_threads(nrJobs)
+    {
+        int row = omp_get_thread_num();
+        execute(row, solution);
+    };
+}
+
+void execute_sequencial(Solution (*solution)[nrMachines]) {
+    for (int row = 0; row < nrJobs; row++) {
+        execute(row, solution);
+    }
+}
+
+int main(int argc, char *argv[]) {
     
-    inputFile = fopen(argv[1], "r");
-    outputFile = fopen("output.txt", "w");
-    fscanf(inputFile, "%d%d", &nrJobs, &nrMachines);
+    if (argc != 3) {
+        printf("%s <input_file> <sequential|parallel>\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+
+    char *processing_mode = argv[2];
+    if(!strcmp(processing_mode, "sequential") && !strcmp(processing_mode, "parallel")) {
+        printf("Erro: Modo invalido!\n");
+        return EXIT_FAILURE;
+    }
+
+    if((inputFile = fopen(argv[1], "r")) == NULL) {
+        printf("Erro: Nao foi possivel abrir %s\n", argv[1]);
+        return EXIT_FAILURE;
+    }
+
+    if((outputFile = fopen("output.txt", "w")) == NULL) {
+        printf("Erro: Nao foi possivel abrir output.txt\n");
+        return EXIT_FAILURE;
+    }
+
+    if(fscanf(inputFile, "%d%d", &nrJobs, &nrMachines) != 2) {
+        printf("Erro: Ficheiro corrompido\n");
+        return EXIT_FAILURE;
+    }
+
     nrOperations = nrMachines;
 
-    printf("nrJobs: %d\n", nrJobs);
     Solution solution[nrJobs][nrMachines];
-    memset(&solution, 0, sizeof(solution));
 
-    printf("Jobs: %d\n", nrJobs);
-    printf("Machines: %d\n", nrMachines);
-    printf("Operations: %d\n", nrOperations * nrJobs);
+    // Inicializar memoria a zero
+    memset(&solution, 0, sizeof(solution));
 
     for (int m = 0; m < nrMachines; m++) {
         machines[m].isFree = true;
         machines[m].n = m;
     };
+
 
     for (int i = 0; i < nrJobs; i++) {
         jobs[i].n = i;
@@ -87,50 +163,13 @@ int main(int argc, char **argv) {
         };
     };
 
-    printf("\n\n\n");
     double initTime = getClock();
 
-    #pragma omp parallel num_threads(nrJobs)
-    {
-        int row = omp_get_thread_num();
-
-        for (int col = 0; col < nrOperations; col++) {
-            #pragma omp critical
-
-            if (machines[jobs[row].operations[col].machine].isFree) {
-                printf("\nFree, row: %d", row);
-
-                solution[row][col].initialTime = maxEndTime;
-                solution[row][col].machine = jobs[row].operations[col].machine;
-                solution[row][col].endTime = solution[row][col].initialTime + jobs[row].operations[col].time;
-
-                machines[jobs[row].operations[col].machine].isFree = false;
-                machines[jobs[row].operations[col].machine].endTime = solution[row][col].endTime;
-            } else {
-                printf("\nNot Free, row: %d", row);
-
-                solution[row][col].initialTime = machines[jobs[row].operations[col].machine].endTime;
-                solution[row][col].machine = jobs[row].operations[col].machine;
-                solution[row][col].endTime = solution[row][col].initialTime + jobs[row].operations[col].time;
-
-                machines[jobs[row].operations[col].machine].isFree = false;
-                machines[jobs[row].operations[col].machine].endTime = solution[row][col].endTime;
-            };
-
-            #pragma omp barrier
-
-            for (int mAux = 0; mAux < nrJobs; mAux ++) {
-                if (maxEndTime < solution[mAux][col].endTime) {
-                    maxEndTime = solution[mAux][col].endTime;
-                };
-            };
-
-            for (int m = 0; m < nrMachines; m++) {
-                machines[m].isFree = true;
-                machines[m].endTime = 0;
-            }
-        };
-    };
+    if(strcmp(processing_mode, "sequential")) {
+        execute_sequencial(solution);
+    } else {
+        execute_parallel(solution);
+    }
 
     double endTime = getClock();
 
@@ -151,5 +190,7 @@ int main(int argc, char **argv) {
     printf("\n");
     printf("*******************");
     printf("\n\nTempo de execução (s): %.6f\n", endTime - initTime);
+
+    return EXIT_SUCCESS;
 }
 
