@@ -105,10 +105,15 @@ void execute_sequencial(Solution (*solution)[nrMachines]) {
 }
 
 int main(int argc, char *argv[]) {
-    
-    if (argc != 3) {
-        printf("%s <input_file> <sequential|parallel>\n", argv[0]);
+    int numero_medias = 1;
+
+    if (argc < 3 || argc > 4) {
+        printf("%s <input_file> <sequential|parallel> <?numero de medias>\n", argv[0]);
         return EXIT_FAILURE;
+    }
+
+    if(argc == 4) {
+        numero_medias = atoi(argv[3]);
     }
 
     char *processing_mode = argv[2];
@@ -163,15 +168,21 @@ int main(int argc, char *argv[]) {
         };
     };
 
-    double initTime = getClock();
+    double total_times = 0;
 
-    if(strcmp(processing_mode, "sequential")) {
-        execute_sequencial(solution);
-    } else {
-        execute_parallel(solution);
+    for(int i = 0; i < numero_medias; i++) {
+        double initTime = getClock();
+
+        if(strcmp(processing_mode, "sequential")) {
+            execute_sequencial(solution);
+        } else {
+            execute_parallel(solution);
+        }
+
+        total_times += (initTime - getClock()) ;
     }
 
-    double endTime = getClock();
+    double time_avg = total_times/numero_medias;
 
     printf("\n\n\n");
 
@@ -189,7 +200,7 @@ int main(int argc, char *argv[]) {
     };
     printf("\n");
     printf("*******************");
-    printf("\n\nTempo de execução (s): %.6f\n", endTime - initTime);
+    printf("\n\nTempo de execução (s): %.6f\n", time_avg);
 
     return EXIT_SUCCESS;
 }
