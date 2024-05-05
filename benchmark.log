@@ -1,0 +1,127 @@
+gg03.jss sequential:
+Tempo de execução total (s): 0.000002
+===================
+gg03.jss parallel:
+Tempo de execução total (s): 0.000012
+	Tempo de execução thread (0) (s): 0.000005
+	Tempo de execução thread (1) (s): 0.000005
+	Tempo de execução thread (2) (s): 0.000005
+===================
+ff06.jss sequential:
+Tempo de execução total (s): 0.000007
+===================
+ff06.jss parallel:
+Tempo de execução total (s): 0.000036
+	Tempo de execução thread (0) (s): 0.000023
+	Tempo de execução thread (1) (s): 0.000023
+	Tempo de execução thread (2) (s): 0.000023
+	Tempo de execução thread (3) (s): 0.000024
+	Tempo de execução thread (4) (s): 0.000022
+	Tempo de execução thread (5) (s): 0.000023
+===================
+ta80.jss sequential:
+Tempo de execução total (s): 0.000813
+===================
+ta80.jss parallel:
+Tempo de execução total (s): 0.003954
+	Tempo de execução thread (0) (s): 0.003567
+	Tempo de execução thread (1) (s): 0.003576
+	Tempo de execução thread (2) (s): 0.003571
+	Tempo de execução thread (3) (s): 0.003569
+	Tempo de execução thread (4) (s): 0.003557
+	Tempo de execução thread (5) (s): 0.003570
+	Tempo de execução thread (6) (s): 0.003561
+	Tempo de execução thread (7) (s): 0.003558
+	Tempo de execução thread (8) (s): 0.003551
+	Tempo de execução thread (9) (s): 0.003578
+	Tempo de execução thread (10) (s): 0.003563
+	Tempo de execução thread (11) (s): 0.003564
+	Tempo de execução thread (12) (s): 0.003569
+	Tempo de execução thread (13) (s): 0.003575
+	Tempo de execução thread (14) (s): 0.003569
+	Tempo de execução thread (15) (s): 0.003561
+	Tempo de execução thread (16) (s): 0.003566
+	Tempo de execução thread (17) (s): 0.003574
+	Tempo de execução thread (18) (s): 0.003571
+	Tempo de execução thread (19) (s): 0.003563
+	Tempo de execução thread (20) (s): 0.003572
+	Tempo de execução thread (21) (s): 0.003576
+	Tempo de execução thread (22) (s): 0.003557
+	Tempo de execução thread (23) (s): 0.003562
+	Tempo de execução thread (24) (s): 0.003561
+	Tempo de execução thread (25) (s): 0.003568
+	Tempo de execução thread (26) (s): 0.003574
+	Tempo de execução thread (27) (s): 0.003560
+	Tempo de execução thread (28) (s): 0.003563
+	Tempo de execução thread (29) (s): 0.003555
+	Tempo de execução thread (30) (s): 0.003581
+	Tempo de execução thread (31) (s): 0.003574
+	Tempo de execução thread (32) (s): 0.003548
+	Tempo de execução thread (33) (s): 0.003570
+	Tempo de execução thread (34) (s): 0.003574
+	Tempo de execução thread (35) (s): 0.003564
+	Tempo de execução thread (36) (s): 0.003566
+	Tempo de execução thread (37) (s): 0.003568
+	Tempo de execução thread (38) (s): 0.003562
+	Tempo de execução thread (39) (s): 0.003550
+	Tempo de execução thread (40) (s): 0.003566
+	Tempo de execução thread (41) (s): 0.003573
+	Tempo de execução thread (42) (s): 0.003569
+	Tempo de execução thread (43) (s): 0.003561
+	Tempo de execução thread (44) (s): 0.003552
+	Tempo de execução thread (45) (s): 0.003560
+	Tempo de execução thread (46) (s): 0.003574
+	Tempo de execução thread (47) (s): 0.003554
+	Tempo de execução thread (48) (s): 0.003569
+	Tempo de execução thread (49) (s): 0.003570
+	Tempo de execução thread (50) (s): 0.003565
+	Tempo de execução thread (51) (s): 0.003576
+	Tempo de execução thread (52) (s): 0.003553
+	Tempo de execução thread (53) (s): 0.003581
+	Tempo de execução thread (54) (s): 0.003577
+	Tempo de execução thread (55) (s): 0.003567
+	Tempo de execução thread (56) (s): 0.003564
+	Tempo de execução thread (57) (s): 0.003575
+	Tempo de execução thread (58) (s): 0.003573
+	Tempo de execução thread (59) (s): 0.003568
+	Tempo de execução thread (60) (s): 0.003586
+	Tempo de execução thread (61) (s): 0.003562
+	Tempo de execução thread (62) (s): 0.003577
+	Tempo de execução thread (63) (s): 0.003575
+	Tempo de execução thread (64) (s): 0.003565
+	Tempo de execução thread (65) (s): 0.003582
+	Tempo de execução thread (66) (s): 0.003570
+	Tempo de execução thread (67) (s): 0.003567
+	Tempo de execução thread (68) (s): 0.003560
+	Tempo de execução thread (69) (s): 0.003573
+	Tempo de execução thread (70) (s): 0.003552
+	Tempo de execução thread (71) (s): 0.003564
+	Tempo de execução thread (72) (s): 0.003564
+	Tempo de execução thread (73) (s): 0.003567
+	Tempo de execução thread (74) (s): 0.003551
+	Tempo de execução thread (75) (s): 0.003561
+	Tempo de execução thread (76) (s): 0.003573
+	Tempo de execução thread (77) (s): 0.003569
+	Tempo de execução thread (78) (s): 0.003582
+	Tempo de execução thread (79) (s): 0.003571
+	Tempo de execução thread (80) (s): 0.003555
+	Tempo de execução thread (81) (s): 0.003570
+	Tempo de execução thread (82) (s): 0.003564
+	Tempo de execução thread (83) (s): 0.003556
+	Tempo de execução thread (84) (s): 0.003564
+	Tempo de execução thread (85) (s): 0.003563
+	Tempo de execução thread (86) (s): 0.003554
+	Tempo de execução thread (87) (s): 0.003566
+	Tempo de execução thread (88) (s): 0.003568
+	Tempo de execução thread (89) (s): 0.003565
+	Tempo de execução thread (90) (s): 0.003550
+	Tempo de execução thread (91) (s): 0.003563
+	Tempo de execução thread (92) (s): 0.003555
+	Tempo de execução thread (93) (s): 0.003566
+	Tempo de execução thread (94) (s): 0.003572
+	Tempo de execução thread (95) (s): 0.003561
+	Tempo de execução thread (96) (s): 0.003567
+	Tempo de execução thread (97) (s): 0.003566
+	Tempo de execução thread (98) (s): 0.003565
+	Tempo de execução thread (99) (s): 0.003562
+===================
