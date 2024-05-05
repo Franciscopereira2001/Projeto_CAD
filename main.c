@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 
-#define MAX_NUM 25
+#define MAX_NUM 1000
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -90,11 +90,13 @@ void execute(int row, Solution (*solution)[nrMachines]) {
     };
 }
 
-void execute_parallel(Solution (*solution)[nrMachines]) {
+void execute_parallel(Solution (*solution)[nrMachines], double *thread_times) {
     #pragma omp parallel num_threads(nrJobs)
     {
         int row = omp_get_thread_num();
+        double initTime = getClock();
         execute(row, solution);
+        thread_times[row] += (getClock() - initTime);
     };
 }
 
@@ -169,17 +171,21 @@ int main(int argc, char *argv[]) {
     };
 
     double total_times = 0;
+    double thread_times[nrJobs];
+    memset(&thread_times, 0, sizeof(thread_times));
 
     for(int i = 0; i < numero_medias; i++) {
         double initTime = getClock();
 
-        if(strcmp(processing_mode, "sequential")) {
+        printf("Processing mode = %s\n", processing_mode);
+
+        if(strcmp(processing_mode, "sequential") == 0) {
             execute_sequencial(solution);
         } else {
-            execute_parallel(solution);
+            execute_parallel(solution, thread_times);
         }
 
-        total_times += (initTime - getClock()) ;
+        total_times += (getClock() - initTime) ;
     }
 
     double time_avg = total_times/numero_medias;
@@ -200,8 +206,15 @@ int main(int argc, char *argv[]) {
     };
     printf("\n");
     printf("*******************");
-    printf("\n\nTempo de execução (s): %.6f\n", time_avg);
+    printf("\n\nTempo de execução total (s): %.6f\n", time_avg);
 
+    if(strcmp(processing_mode, "parallel") == 0) {
+        for(int i = 0; i < nrJobs; i++) {
+            printf("\tTempo de execução thread (%d) (s): %.6f\n", i, thread_times[i]/numero_medias);
+        }
+    }
+    
+    
     return EXIT_SUCCESS;
 }
 

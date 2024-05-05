@@ -8,4 +8,4 @@ script_dir=$(dirname "$0")
 # Run the other script
 "$script_dir/compile.sh"
 
-./projeto_cad.exe ff06.jss parallel
+./projeto_cad.exe ta80.jss parallel 1
