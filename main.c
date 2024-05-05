@@ -141,6 +141,8 @@ int main(int argc, char *argv[]) {
 
     nrOperations = nrMachines;
 
+    printf("Max num threads = %d\n",omp_get_max_threads());
+    
     Solution solution[nrJobs][nrMachines];
 
     // Inicializar memoria a zero
